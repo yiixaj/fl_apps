@@ -78,8 +78,8 @@ class _HomeScreenState extends State<HomeScreen> {
               label: 'Inicio',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.add_circle_rounded, size: 32),
-              label: '',
+              icon: Icon(Icons.add_circle_rounded),
+              label: 'Registrar',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.flag_rounded),
@@ -166,11 +166,12 @@ class _DashboardTabState extends State<_DashboardTab> {
         slivers: [
           // AppBar profesional con efecto glass
           SliverAppBar(
-            expandedHeight: 120,
+            expandedHeight: 85,
             floating: false,
             pinned: true,
             backgroundColor: isDark ? AppColors.darkSurface : AppColors.orange,
             flexibleSpace: FlexibleSpaceBar(
+              centerTitle: true,
               title: const Text(
                 'Dashboard',
                 style: TextStyle(
