@@ -19,18 +19,20 @@ class _GoalsScreenState extends State<GoalsScreen> {
   final ImagePicker _picker = ImagePicker();
 
   // Imágenes predefinidas para las metas
-  final List<GoalImage> goalImages = [
-    GoalImage('Auto', 'https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=800', Icons.directions_car_rounded),
-    GoalImage('Casa', 'https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=800', Icons.home_rounded),
-    GoalImage('Vacaciones', 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800', Icons.beach_access_rounded),
-    GoalImage('Educación', 'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=800', Icons.school_rounded),
-    GoalImage('Inversión', 'https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=800', Icons.trending_up_rounded),
-    GoalImage('Boda', 'https://images.unsplash.com/photo-1519741497674-611481863552?w=800', Icons.favorite_rounded),
-    GoalImage('Tecnología', 'https://images.unsplash.com/photo-1468495244123-6c6c332eeece?w=800', Icons.devices_rounded),
-    GoalImage('Salud', 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800', Icons.fitness_center_rounded),
-    GoalImage('Negocio', 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800', Icons.business_rounded),
-    GoalImage('Otro', 'https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?w=800', Icons.star_rounded),
-  ];
+// Imágenes predefinidas para las metas
+final List<GoalImage> goalImages = [
+  GoalImage('Auto', 'https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=800', Icons.directions_car_rounded),
+  GoalImage('Casa', 'https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=800', Icons.home_rounded),
+  GoalImage('Vacaciones', 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800', Icons.beach_access_rounded),
+  // Reemplazada la URL para "Educación" con la nueva
+  GoalImage('Educación', 'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', Icons.school_rounded),
+  GoalImage('Inversión', 'https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=800', Icons.trending_up_rounded),
+  GoalImage('Boda', 'https://images.unsplash.com/photo-1519741497674-611481863552?w=800', Icons.favorite_rounded),
+  GoalImage('Tecnología', 'https://images.unsplash.com/photo-1468495244123-6c6c332eeece?w=800', Icons.devices_rounded),
+  GoalImage('Salud', 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800', Icons.fitness_center_rounded),
+  GoalImage('Negocio', 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800', Icons.business_rounded),
+  GoalImage('Otro', 'https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?w=800', Icons.star_rounded),
+];
 
   @override
   void initState() {
@@ -42,7 +44,6 @@ class _GoalsScreenState extends State<GoalsScreen> {
   void _addSampleGoals() {
     if (goalBox.isEmpty) {
       final imageBox = Hive.box('settings');
-      
       final samples = [
         {
           'goal': GoalModel(
@@ -63,11 +64,10 @@ class _GoalsScreenState extends State<GoalsScreen> {
           'imageUrl': 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800',
         },
       ];
-      
+
       for (var sample in samples) {
         final goal = sample['goal'] as GoalModel;
         final imageUrl = sample['imageUrl'] as String;
-        
         goalBox.put(goal.id, goal);
         imageBox.put('goal_image_${goal.id}', imageUrl);
       }
@@ -82,7 +82,6 @@ class _GoalsScreenState extends State<GoalsScreen> {
         maxHeight: 1200,
         imageQuality: 85,
       );
-      
       if (image != null) {
         onImageSelected(image.path);
       }
@@ -106,7 +105,6 @@ class _GoalsScreenState extends State<GoalsScreen> {
         maxHeight: 1200,
         imageQuality: 85,
       );
-      
       if (image != null) {
         onImageSelected(image.path);
       }
@@ -202,7 +200,7 @@ class _GoalsScreenState extends State<GoalsScreen> {
       backgroundColor: Colors.transparent,
       builder: (context) => StatefulBuilder(
         builder: (context, setModalState) => Container(
-          height: MediaQuery.of(context).size.height * 0.98,
+          height: MediaQuery.of(context).size.height * 0.70, /// Ajuste para pantalla completa
           decoration: BoxDecoration(
             color: Theme.of(context).scaffoldBackgroundColor,
             borderRadius: const BorderRadius.vertical(top: Radius.circular(25)),
@@ -215,11 +213,11 @@ class _GoalsScreenState extends State<GoalsScreen> {
                 width: 40,
                 height: 4,
                 decoration: BoxDecoration(
-                  color: Colors.grey[300],
+                  color: const Color.fromARGB(255, 67, 61, 61),
                   borderRadius: BorderRadius.circular(2),
                 ),
               ),
-              
+
               // Header
               Padding(
                 padding: const EdgeInsets.all(20),
@@ -269,7 +267,7 @@ class _GoalsScreenState extends State<GoalsScreen> {
                           ),
                         ),
                       ),
-                      
+
                       const SizedBox(height: 24),
 
                       // Campo de monto
@@ -326,7 +324,7 @@ class _GoalsScreenState extends State<GoalsScreen> {
                           ),
                         ],
                       ),
-                      
+
                       const SizedBox(height: 12),
 
                       // Mostrar imagen personalizada si existe
@@ -452,7 +450,7 @@ class _GoalsScreenState extends State<GoalsScreen> {
                         ),
                         const SizedBox(height: 16),
                       ],
-                      
+
                       // Grid de imágenes predefinidas
                       GridView.builder(
                         shrinkWrap: true,
@@ -467,7 +465,7 @@ class _GoalsScreenState extends State<GoalsScreen> {
                         itemBuilder: (context, index) {
                           final image = goalImages[index];
                           final isSelected = selectedImageUrl == image.url && customImagePath == null;
-                          
+
                           return GestureDetector(
                             onTap: () {
                               setModalState(() {
@@ -567,19 +565,15 @@ class _GoalsScreenState extends State<GoalsScreen> {
                             objetivo: double.parse(targetController.text),
                             acumulado: 0.0,
                           );
-                          
                           final imageBox = Hive.box('settings');
-                          
                           // Guardar imagen personalizada o predefinida
                           if (customImagePath != null) {
                             imageBox.put('goal_image_${goal.id}', 'file://$customImagePath');
                           } else if (selectedImageUrl != null) {
                             imageBox.put('goal_image_${goal.id}', selectedImageUrl);
                           }
-                          
                           goalBox.put(goal.id, goal);
                           Navigator.pop(context);
-                          
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
                               content: Text('✓ Meta creada exitosamente'),
@@ -693,11 +687,9 @@ class _GoalsScreenState extends State<GoalsScreen> {
     if (imageUrl == null) {
       return const NetworkImage('https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?w=800');
     }
-    
     if (imageUrl.startsWith('file://')) {
       return FileImage(File(imageUrl.substring(7)));
     }
-    
     return NetworkImage(imageUrl);
   }
 
@@ -709,11 +701,12 @@ class _GoalsScreenState extends State<GoalsScreen> {
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
-            expandedHeight: 120,
+            expandedHeight: 60, ///tamaño del appbar
             floating: false,
             pinned: true,
             backgroundColor: isDark ? AppColors.darkSurface : AppColors.orange,
             flexibleSpace: FlexibleSpaceBar(
+              centerTitle: true,
               title: const Text(
                 'Mis Metas',
                 style: TextStyle(
@@ -721,6 +714,7 @@ class _GoalsScreenState extends State<GoalsScreen> {
                   fontSize: 20,
                 ),
               ),
+              titlePadding: const EdgeInsets.only(left: 16, bottom: 16),
               background: Container(
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
@@ -739,11 +733,9 @@ class _GoalsScreenState extends State<GoalsScreen> {
               valueListenable: goalBox.listenable(),
               builder: (context, box, _) {
                 final goals = box.values.cast<GoalModel>().toList();
-
                 if (goals.isEmpty) {
                   return _buildEmptyState();
                 }
-
                 return Padding(
                   padding: const EdgeInsets.all(20),
                   child: Column(
@@ -802,12 +794,12 @@ class _GoalsScreenState extends State<GoalsScreen> {
         gradient: const LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [AppColors.purple, AppColors.blue],
+          colors: [Color.fromARGB(65, 72, 51, 1), Color.fromARGB(65, 72, 51, 1)], /// Color de barra
         ),
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: AppColors.purple.withOpacity(0.3),
+            color: const Color.fromARGB(255, 165, 121, 59).withOpacity(0.3),
             blurRadius: 15,
             offset: const Offset(0, 8),
           ),
@@ -960,7 +952,6 @@ class _GoalsScreenState extends State<GoalsScreen> {
               },
             ),
           ),
-
           // Contenido
           Padding(
             padding: const EdgeInsets.all(20),
@@ -991,9 +982,7 @@ class _GoalsScreenState extends State<GoalsScreen> {
                       ],
                     ),
                   ),
-
                 const Spacer(),
-
                 // Nombre de la meta
                 Text(
                   goal.nombre,
@@ -1009,68 +998,38 @@ class _GoalsScreenState extends State<GoalsScreen> {
                     ],
                   ),
                 ),
-
                 const SizedBox(height: 8),
-
                 // Progreso
-                Row(
+                Column( // Cambiado de Row a Column para que el progreso esté arriba del botón (si existiera)
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            '\$${goal.acumulado.toStringAsFixed(2)} de \$${goal.objetivo.toStringAsFixed(2)}',
-                            style: TextStyle(
-                              color: Colors.white.withOpacity(0.9),
-                              fontSize: 14,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                          const SizedBox(height: 8),
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(10),
-                            child: LinearProgressIndicator(
-                              value: progress.clamp(0.0, 1.0),
-                              minHeight: 8,
-                              backgroundColor: Colors.white.withOpacity(0.3),
-                              valueColor: AlwaysStoppedAnimation<Color>(
-                                isCompleted ? Colors.green : Colors.white,
-                              ),
-                            ),
-                          ),
-                          const SizedBox(height: 4),
-                          Text(
-                            '$percentage% completado',
-                            style: TextStyle(
-                              color: Colors.white.withOpacity(0.9),
-                              fontSize: 12,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ],
+                    Text(
+                      '\$${goal.acumulado.toStringAsFixed(2)} de \$${goal.objetivo.toStringAsFixed(2)}',
+                      style: TextStyle(
+                        color: Colors.white.withOpacity(0.9),
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
                       ),
                     ),
-                    const SizedBox(width: 12),
-                    ElevatedButton(
-                      onPressed: isCompleted ? null : () => _showAddMoneyDialog(goal),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.white,
-                        foregroundColor: AppColors.orange,
-                        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
+                    const SizedBox(height: 8),
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child: LinearProgressIndicator(
+                        value: progress.clamp(0.0, 1.0),
+                        minHeight: 8,
+                        backgroundColor: Colors.white.withOpacity(0.3),
+                        valueColor: AlwaysStoppedAnimation<Color>(
+                          isCompleted ? Colors.green : Colors.white,
                         ),
                       ),
-                      child: const Row(
-                        children: [
-                          Icon(Icons.add_rounded, size: 18),
-                          SizedBox(width: 4),
-                          Text(
-                            'Agregar',
-                            style: TextStyle(fontWeight: FontWeight.w600),
-                          ),
-                        ],
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      '$percentage% completado',
+                      style: TextStyle(
+                        color: Colors.white.withOpacity(0.9),
+                        fontSize: 12,
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
                   ],
