@@ -406,48 +406,48 @@ class _CategoriesScreenState extends State<CategoriesScreen> with SingleTickerPr
       body: NestedScrollView(
         headerSliverBuilder: (context, innerBoxIsScrolled) {
           return [
-SliverAppBar(
-  expandedHeight: 120,
-  floating: false,
-  pinned: true,
-  backgroundColor: isDark ? AppColors.darkSurface : AppColors.orange,
-  flexibleSpace: FlexibleSpaceBar(
-    title: const Text(
-      'Categorías',
-      style: TextStyle(
-        fontWeight: FontWeight.w600,
-        fontSize: 20,
-      ),
-    ),
-    titlePadding: const EdgeInsets.only(left: 16, bottom: 60),
-    background: Container(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: isDark
-              ? [AppColors.darkSurface, AppColors.darkBackground]
-              : [AppColors.orange, AppColors.red],
-        ),
-      ),
-    ),
-  ),
-  bottom: TabBar(
-    controller: _tabController,
-    indicatorColor: Colors.white,
-    indicatorWeight: 3,
-    labelColor: Colors.white,
-    unselectedLabelColor: Colors.white.withOpacity(0.6),
-    labelStyle: const TextStyle(
-      fontWeight: FontWeight.w600,
-      fontSize: 15,
-    ),
-    tabs: const [
-      Tab(text: 'Egresos'),
-      Tab(text: 'Ingresos'),
-    ],
-  ),
-),
+            SliverAppBar(
+              expandedHeight: 120,
+              floating: false,
+              pinned: true,
+              backgroundColor: isDark ? AppColors.darkSurface : AppColors.orange,
+              flexibleSpace: FlexibleSpaceBar(
+                title: const Text(
+                  'Categorías',
+                  style: TextStyle(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 20,
+                  ),
+                ),
+                titlePadding: const EdgeInsets.only(left: 16, bottom: 60),
+                background: Container(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors: isDark
+                          ? [AppColors.darkSurface, AppColors.darkBackground]
+                          : [AppColors.orange, AppColors.red],
+                    ),
+                  ),
+                ),
+              ),
+              bottom: TabBar(
+                controller: _tabController,
+                indicatorColor: Colors.white,
+                indicatorWeight: 3,
+                labelColor: Colors.white,
+                unselectedLabelColor: Colors.white.withOpacity(0.6),
+                labelStyle: const TextStyle(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 15,
+                ),
+                tabs: const [
+                  Tab(text: 'Egresos'),
+                  Tab(text: 'Ingresos'),
+                ],
+              ),
+            ),
           ];
         },
         body: ValueListenableBuilder(
