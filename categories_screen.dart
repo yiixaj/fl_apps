@@ -73,313 +73,11 @@ class _CategoriesScreenState extends State<CategoriesScreen> with SingleTickerPr
     }
   }
 
-  void _showAddCategoryDialog() {
-    final nameController = TextEditingController();
-    String tipo = 'egreso';
-    String? selectedIconName;
-    CategoryIcon? selectedIcon;
-
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      builder: (context) => StatefulBuilder(
-        builder: (context, setModalState) => Container(
-          height: MediaQuery.of(context).size.height * 0.85,
-          decoration: BoxDecoration(
-            color: Theme.of(context).scaffoldBackgroundColor,
-            borderRadius: const BorderRadius.vertical(top: Radius.circular(25)),
-          ),
-          child: Column(
-            children: [
-              // Handle bar
-              Container(
-                margin: const EdgeInsets.only(top: 12),
-                width: 40,
-                height: 4,
-                decoration: BoxDecoration(
-                  color: Colors.grey[300],
-                  borderRadius: BorderRadius.circular(2),
-                ),
-              ),
-              
-              // Header
-              Padding(
-                padding: const EdgeInsets.all(20),
-                child: Row(
-                  children: [
-                    const Text(
-                      'Nueva Categoría',
-                      style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const Spacer(),
-                    IconButton(
-                      onPressed: () => Navigator.pop(context),
-                      icon: const Icon(Icons.close_rounded),
-                    ),
-                  ],
-                ),
-              ),
-
-              Expanded(
-                child: SingleChildScrollView(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // Campo de nombre
-                      const Text(
-                        'Nombre de la categoría',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      const SizedBox(height: 8),
-                      TextField(
-                        controller: nameController,
-                        decoration: InputDecoration(
-                          hintText: 'Ej: Supermercado',
-                          prefixIcon: const Icon(Icons.label_rounded),
-                          filled: true,
-                          fillColor: Theme.of(context).cardColor,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(16),
-                            borderSide: BorderSide.none,
-                          ),
-                        ),
-                      ),
-                      
-                      const SizedBox(height: 24),
-
-                      // Tipo
-                      const Text(
-                        'Tipo',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      const SizedBox(height: 12),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: GestureDetector(
-                              onTap: () => setModalState(() => tipo = 'ingreso'),
-                              child: Container(
-                                padding: const EdgeInsets.all(16),
-                                decoration: BoxDecoration(
-                                  color: tipo == 'ingreso' 
-                                      ? AppColors.teal.withOpacity(0.1)
-                                      : Theme.of(context).cardColor,
-                                  borderRadius: BorderRadius.circular(16),
-                                  border: Border.all(
-                                    color: tipo == 'ingreso' 
-                                        ? AppColors.teal
-                                        : Colors.grey.withOpacity(0.3),
-                                    width: 2,
-                                  ),
-                                ),
-                                child: Column(
-                                  children: [
-                                    Icon(
-                                      Icons.arrow_downward_rounded,
-                                      color: tipo == 'ingreso' ? AppColors.teal : Colors.grey,
-                                      size: 32,
-                                    ),
-                                    const SizedBox(height: 8),
-                                    Text(
-                                      'Ingreso',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w600,
-                                        color: tipo == 'ingreso' ? AppColors.teal : Colors.grey,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(width: 12),
-                          Expanded(
-                            child: GestureDetector(
-                              onTap: () => setModalState(() => tipo = 'egreso'),
-                              child: Container(
-                                padding: const EdgeInsets.all(16),
-                                decoration: BoxDecoration(
-                                  color: tipo == 'egreso' 
-                                      ? AppColors.red.withOpacity(0.1)
-                                      : Theme.of(context).cardColor,
-                                  borderRadius: BorderRadius.circular(16),
-                                  border: Border.all(
-                                    color: tipo == 'egreso' 
-                                        ? AppColors.red
-                                        : Colors.grey.withOpacity(0.3),
-                                    width: 2,
-                                  ),
-                                ),
-                                child: Column(
-                                  children: [
-                                    Icon(
-                                      Icons.arrow_upward_rounded,
-                                      color: tipo == 'egreso' ? AppColors.red : Colors.grey,
-                                      size: 32,
-                                    ),
-                                    const SizedBox(height: 8),
-                                    Text(
-                                      'Egreso',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w600,
-                                        color: tipo == 'egreso' ? AppColors.red : Colors.grey,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-
-                      const SizedBox(height: 24),
-
-                      // Selector de ícono
-                      const Text(
-                        'Ícono',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      const SizedBox(height: 12),
-                      
-                      GridView.builder(
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 4,
-                          crossAxisSpacing: 12,
-                          mainAxisSpacing: 12,
-                          childAspectRatio: 1,
-                        ),
-                        itemCount: categoryIcons.length,
-                        itemBuilder: (context, index) {
-                          final icon = categoryIcons[index];
-                          final isSelected = selectedIconName == icon.name;
-                          
-                          return GestureDetector(
-                            onTap: () {
-                              setModalState(() {
-                                selectedIconName = icon.name;
-                                selectedIcon = icon;
-                              });
-                            },
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: isSelected 
-                                    ? icon.color.withOpacity(0.2)
-                                    : Theme.of(context).cardColor,
-                                borderRadius: BorderRadius.circular(16),
-                                border: Border.all(
-                                  color: isSelected ? icon.color : Colors.grey.withOpacity(0.3),
-                                  width: isSelected ? 2 : 1,
-                                ),
-                              ),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(
-                                    icon.icon,
-                                    color: isSelected ? icon.color : Colors.grey,
-                                    size: 28,
-                                  ),
-                                  const SizedBox(height: 4),
-                                  Text(
-                                    icon.name,
-                                    style: TextStyle(
-                                      fontSize: 10,
-                                      color: isSelected ? icon.color : Colors.grey,
-                                      fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
-                                    ),
-                                    textAlign: TextAlign.center,
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          );
-                        },
-                      ),
-
-                      const SizedBox(height: 100),
-                    ],
-                  ),
-                ),
-              ),
-
-              // Botón de guardar
-              Container(
-                padding: const EdgeInsets.all(20),
-                decoration: BoxDecoration(
-                  color: Theme.of(context).scaffoldBackgroundColor,
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.05),
-                      blurRadius: 10,
-                      offset: const Offset(0, -5),
-                    ),
-                  ],
-                ),
-                child: SafeArea(
-                  child: SizedBox(
-                    width: double.infinity,
-                    height: 56,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        if (nameController.text.isNotEmpty) {
-                          final category = CategoryModel(
-                            id: _uuid.v4(),
-                            nombre: nameController.text,
-                            tipo: tipo,
-                          );
-                          
-                          categoryBox.put(category.id, category);
-                          
-                          // Guardar el ícono seleccionado
-                          if (selectedIconName != null) {
-                            final iconBox = Hive.box('settings');
-                            iconBox.put('category_icon_${category.id}', selectedIconName);
-                          }
-                          
-                          Navigator.pop(context);
-                        }
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.orange,
-                        foregroundColor: Colors.white,
-                        elevation: 0,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(16),
-                        ),
-                      ),
-                      child: const Text(
-                        'Crear Categoría',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
+  void _navigateToAddCategoryScreen() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => AddCategoryScreen(categoryIcons: categoryIcons),
       ),
     );
   }
@@ -412,6 +110,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> with SingleTickerPr
               pinned: true,
               backgroundColor: isDark ? AppColors.darkSurface : AppColors.orange,
               flexibleSpace: FlexibleSpaceBar(
+                centerTitle: true,
                 title: const Text(
                   'Categorías',
                   style: TextStyle(
@@ -419,7 +118,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> with SingleTickerPr
                     fontSize: 20,
                   ),
                 ),
-                titlePadding: const EdgeInsets.only(left: 16, bottom: 60),
+                titlePadding: const EdgeInsets.only(left: 16, bottom: 16),
                 background: Container(
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
@@ -475,7 +174,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> with SingleTickerPr
         ),
       ),
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: _showAddCategoryDialog,
+        onPressed: _navigateToAddCategoryScreen,
         icon: const Icon(Icons.add_rounded),
         label: const Text('Nueva Categoría'),
         backgroundColor: AppColors.orange,
@@ -644,4 +343,319 @@ class CategoryIcon {
   final Color color;
 
   CategoryIcon(this.name, this.icon, this.color);
+}
+
+// Nueva pantalla para añadir categoría
+class AddCategoryScreen extends StatefulWidget {
+  final List<CategoryIcon> categoryIcons;
+
+  const AddCategoryScreen({super.key, required this.categoryIcons});
+
+  @override
+  State<AddCategoryScreen> createState() => _AddCategoryScreenState();
+}
+
+class _AddCategoryScreenState extends State<AddCategoryScreen> {
+  final nameController = TextEditingController();
+  String tipo = 'egreso';
+  String? selectedIconName;
+  CategoryIcon? selectedIcon;
+  final _uuid = const Uuid();
+
+  @override
+  void dispose() {
+    nameController.dispose();
+    super.dispose();
+  }
+
+  void _saveCategory() {
+    if (nameController.text.isNotEmpty) {
+      final categoryBox = Hive.box('categories');
+      final category = CategoryModel(
+        id: _uuid.v4(),
+        nombre: nameController.text,
+        tipo: tipo,
+      );
+
+      categoryBox.put(category.id, category);
+
+      // Guardar el ícono seleccionado
+      if (selectedIconName != null) {
+        final iconBox = Hive.box('settings');
+        iconBox.put('category_icon_${category.id}', selectedIconName);
+      }
+
+      // Volver a la pantalla anterior
+      Navigator.pop(context);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: SafeArea(
+        child: Column(
+          children: [
+            // Header con botón de cerrar
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: Row(
+                children: [
+                  IconButton(
+                    onPressed: () => Navigator.pop(context),
+                    icon: const Icon(Icons.arrow_back_rounded),
+                    style: IconButton.styleFrom(
+                      backgroundColor: Theme.of(context).cardColor,
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  const Text(
+                    'Nueva Categoría',
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            Expanded(
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Campo de nombre
+                    const Text(
+                      'Nombre de la categoría',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    TextField(
+                      controller: nameController,
+                      decoration: InputDecoration(
+                        hintText: 'Ej: Supermercado',
+                        prefixIcon: const Icon(Icons.label_rounded),
+                        filled: true,
+                        fillColor: Theme.of(context).cardColor,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(16),
+                          borderSide: BorderSide.none,
+                        ),
+                      ),
+                    ),
+
+                    const SizedBox(height: 24),
+
+                    // Tipo
+                    const Text(
+                      'Tipo',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: GestureDetector(
+                            onTap: () => setState(() => tipo = 'ingreso'),
+                            child: Container(
+                              padding: const EdgeInsets.all(16),
+                              decoration: BoxDecoration(
+                                color: tipo == 'ingreso'
+                                    ? AppColors.teal.withOpacity(0.1)
+                                    : Theme.of(context).cardColor,
+                                borderRadius: BorderRadius.circular(16),
+                                border: Border.all(
+                                  color: tipo == 'ingreso'
+                                      ? AppColors.teal
+                                      : Colors.grey.withOpacity(0.3),
+                                  width: 2,
+                                ),
+                              ),
+                              child: Column(
+                                children: [
+                                  Icon(
+                                    Icons.arrow_downward_rounded,
+                                    color: tipo == 'ingreso' ? AppColors.teal : Colors.grey,
+                                    size: 32,
+                                  ),
+                                  const SizedBox(height: 8),
+                                  Text(
+                                    'Ingreso',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w600,
+                                      color: tipo == 'ingreso' ? AppColors.teal : Colors.grey,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: GestureDetector(
+                            onTap: () => setState(() => tipo = 'egreso'),
+                            child: Container(
+                              padding: const EdgeInsets.all(16),
+                              decoration: BoxDecoration(
+                                color: tipo == 'egreso'
+                                    ? AppColors.red.withOpacity(0.1)
+                                    : Theme.of(context).cardColor,
+                                borderRadius: BorderRadius.circular(16),
+                                border: Border.all(
+                                  color: tipo == 'egreso'
+                                      ? AppColors.red
+                                      : Colors.grey.withOpacity(0.3),
+                                  width: 2,
+                                ),
+                              ),
+                              child: Column(
+                                children: [
+                                  Icon(
+                                    Icons.arrow_upward_rounded,
+                                    color: tipo == 'egreso' ? AppColors.red : Colors.grey,
+                                    size: 32,
+                                  ),
+                                  const SizedBox(height: 8),
+                                  Text(
+                                    'Egreso',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w600,
+                                      color: tipo == 'egreso' ? AppColors.red : Colors.grey,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+
+                    const SizedBox(height: 24),
+
+                    // Selector de ícono
+                    const Text(
+                      'Ícono',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+
+                    GridView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 4,
+                        crossAxisSpacing: 12,
+                        mainAxisSpacing: 12,
+                        childAspectRatio: 1,
+                      ),
+                      itemCount: widget.categoryIcons.length,
+                      itemBuilder: (context, index) {
+                        final icon = widget.categoryIcons[index];
+                        final isSelected = selectedIconName == icon.name;
+
+                        return GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              selectedIconName = icon.name;
+                              selectedIcon = icon;
+                            });
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: isSelected
+                                  ? icon.color.withOpacity(0.2)
+                                  : Theme.of(context).cardColor,
+                              borderRadius: BorderRadius.circular(16),
+                              border: Border.all(
+                                color: isSelected ? icon.color : Colors.grey.withOpacity(0.3),
+                                width: isSelected ? 2 : 1,
+                              ),
+                            ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  icon.icon,
+                                  color: isSelected ? icon.color : Colors.grey,
+                                  size: 28,
+                                ),
+                                const SizedBox(height: 4),
+                                Text(
+                                  icon.name,
+                                  style: TextStyle(
+                                    fontSize: 10,
+                                    color: isSelected ? icon.color : Colors.grey,
+                                    fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+
+                    const SizedBox(height: 100), // Espacio antes del botón inferior
+                  ],
+                ),
+              ),
+            ),
+
+            // Botón de guardar
+            Container(
+              padding: const EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                color: Theme.of(context).scaffoldBackgroundColor,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.05),
+                    blurRadius: 10,
+                    offset: const Offset(0, -5),
+                  ),
+                ],
+              ),
+              child: SizedBox(
+                width: double.infinity,
+                height: 56,
+                child: ElevatedButton(
+                  onPressed: _saveCategory,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.orange,
+                    foregroundColor: Colors.white,
+                    elevation: 0,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                  ),
+                  child: const Text(
+                    'Crear Categoría',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 }
